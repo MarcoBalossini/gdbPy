@@ -2,7 +2,8 @@ import os
 import psutil
 
 def launch_gdb(filename):
-    os.system(f"gdb -q -x {filename}")
+    os.execl("/usr/bin/gdb", "/usr/bin/gdb", "-q", "-x", filename)
+    #os.system(f"gdb -q -x {filename}")
 
 process = psutil.Process(os.getpid())
 process_name = process.name()
