@@ -5,5 +5,5 @@ setup(
     version='0.1.0',
     description='gdb scripts in Python',
     author='Marco Balossini',
-    license='MIT',
+    license='GPL',
 )

@@ -5,6 +5,6 @@ venv/
 
 build/
 
-dist/
-
 gdbPy.egg-info/
+
+.idea/
