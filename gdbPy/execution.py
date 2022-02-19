@@ -100,14 +100,20 @@ def set_argument(name, value, variable=True):
     :param value: The new value
     :param bool variable: If the value is a variable. Default is `True`
     """
-    gdb.execute(f"set {'variable ' if variable==True else ''}{name} = {value}")
+    try:
+        gdb.execute(f"set {'variable ' if variable==True else ''}{name} = {value}")
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
 
 def return_to_caller(expression=""):
     """
     Return the expression to the caller
     :param str expression: The expression to return. Default is an empty string.
     """
-    gdb.execute("return "+expression)
+    try:
+        gdb.execute("return "+expression)
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
 
 def __concatenate_params(cmd, stdin, stdout, stderr, params):
     """

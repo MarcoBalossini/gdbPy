@@ -10,20 +10,27 @@ class Instruction():
 
 def get_architecture():
     """Return the file architecture's name"""
-    return gdb.newest_frame().architecture().name()
+    try:
+        return gdb.newest_frame().architecture().name()
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
+
+def current_function():
+    """Return the currently executing function"""
+    try:
+        return gdb.newest_frame().function().name
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
 
 # Could be done with gdb.Architecture.disassemble()
 # however it does not return the instructions offset
-def disass(where="", parse=True):
+def disass(where=""):
     """
     Disassemble the current function or the given location.
     :param str where: The location where to disassemble
     :param bool parse: Whether to parse the output or not
     """
     dis = gdb.execute(f"disass {where}", to_string=True)
-    if not parse:
-        return dis
-
     dis = dis.split("\n")[1:-2]
 
     instructions = []
@@ -55,5 +62,38 @@ def read_variable(name):
     """
     try:
         return gdb.newest_frame().read_var(name)
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
+
+def backtrace(full=False):
+    """
+    Show call stack
+    :param bool full: Whether or not to include local variables
+    """
+    try:
+        bt = gdb.execute(f"backtrace {'full' if full else ''}", to_string=True)
+        bt = bt.split("\n")
+        
+        bt_list = []
+        for line in bt[:-1]:
+            print(">", line)
+            m = re.match("#(\d+)  0x([A-Fa-f0-9]+) in ([A-Za-z0-9_]+) \(\)( from (.*)){0,1}", line)
+            number = int(m.group(1))
+            print(number)
+            address = int(m.group(2), 16)
+            print(address)
+            f_name = m.group(3)
+            print(f_name)
+            from_path = m.group(5)
+            print(from_path)
+
+            btline = {}
+            btline["number"] = number
+            btline["address"] = address
+            btline["name"] = f_name
+            btline["from"] = from_path
+            bt_list.append(btline)
+        return bt_list
+
     except Exception as e:
         print(f"[!] ERROR: {e}")

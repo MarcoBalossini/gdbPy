@@ -1,7 +1,12 @@
+[![License: GPL v3](https://img.shields.io/github/license/MarcoBalossini/gdbPy)](https://www.gnu.org/licenses/gpl-3.0)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/MarcoBalossini/gdbPy/graphs/commit-activity)
+
 # gdbPy
 Not so many people are skilled in the dark arts of gdb scripting... and I'm not one of those!
 gdbPy is an attempt to help all this people to write a higher level gdb scripts.<br>
-gdbPy relies on GNU Python APIs for gdb to do the work, but without the need of installing gdb module on python ([more on this matter](#gdb-module-for-python))
+gdbPy relies on GNU Python APIs for gdb to do the work, but without the need of installing gdb module on python ([more on this matter](#gdb-module-for-python))<br>
+Be aware that gdbPy is still in the early phase of its development. In case some problem arises write an issue and be patient :-)
 
 ## Installation
 Download the .whl file in dist folder and run the command
@@ -37,7 +42,7 @@ step_in()
 countinue_exec()
 
 # Can't find the command you need?
-execute("command")
+res = execute("command")
 
 # Now quit gdb
 quit()

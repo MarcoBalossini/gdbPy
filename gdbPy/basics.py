@@ -1,5 +1,35 @@
 import gdb
 
+def attach(process):
+    """
+    Attach gdb to a running process
+    :param int pid: The process pid
+    """
+    try:
+        if isinstance(process, int):
+            gdb.execute(f"attach {process}")
+        else:
+            from pwnlib.util.proc import pidof
+            pid = pidof(process)[0]
+            gdb.execute(f"attach {pid}")
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
+        if 'ptrace' in str(e):
+            import psutil
+            import os
+            print("\tgdb needs the permission to attach to this process.")
+            print("\tFirst make sure you're the owner of the attaching process.")
+            print("\tIf it's the case you can choose one of the following options:")
+            process = psutil.Process(os.getpid())
+
+            pname = ""
+            for arg in process.cmdline():
+                if ".py" in arg:
+                    pname = arg
+                    break
+            print(f"\t    1) Run again the process as a superuser: \"sudo python3 {pname}\"")
+            print("\t    2) Set ptrace_scope to 0: \"sudo echo 0 > /proc/sys/kernel/yama/ptrace_scope\"")
+
 def set_file(filename):
     """
     Sets a file in gdb, given its name
@@ -8,8 +38,8 @@ def set_file(filename):
     """
     try:
         gdb.execute(f"file ./{filename}")
-    except:
-        print(f"[!] ERROR: File not set. {filename} is not a present executable")
+    except Exception as e:
+        print(f"[!] ERROR: File not set. {e}")
 
 def set_args(args):
     """
@@ -32,7 +62,7 @@ def execute(cmd):
     :param str cmd: The command
     """
     try:
-        gdb.execute(cmd)
+        return gdb.execute(cmd, to_string=True)
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
