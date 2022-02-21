@@ -120,14 +120,17 @@ class Breakpoint():
     def set_thread(self, thread_id):
         """
         Set the thread id to the breakpoint
-        :param thread_id: The thread id or None
+        
+        Args:
+            thread_id (int): The thread id
         """
         self.__breakpoint.thread = thread_id
 
     def set_ignore_count(self, ignore):
         """
         Sets the ignore count
-        :param int ignore: The count
+        Args:
+            ignore (int): The ignore count
         """
         self.__breakpoint.ignore_count = ignore
 
@@ -138,15 +141,17 @@ class Breakpoint():
     def set_condition(self, condition):
         """
         Sets the breakpoint's condition
-        :param condition: The condition string to be set or None
+        Args:
+            condition (str): The condition string to be set
         """
         self.__breakpoint.condition = condition
 
-    # Still some problem
+    # TODO: Still some problem
     def set_commands(self, commands):
         """
         Sets the breakpoint's command
-        :param command: The command string to be set or None
+        Args:
+            command (str): The command string to be set
         """
         self.__breakpoint.commands = commands
 
@@ -159,18 +164,26 @@ def get_breakpoints():
     return [Breakpoint(b) for b in breakpoints]
 
 def set_breakpoint(address, is_temporary=False):
-    """
-    Set a breakpoint in the code given the address.
-    :param address: The int address or a valid string for command break
-    :param bool is_temporary: Whether to create a temporary breakpoint or a permanent one. Default is False
+    """Set a breakpoint in the code given the address.
+
+    Args:
+        address (int, str): The int address or a valid string for command break
+        is_temporary (bool, optional): Whether to create a temporary breakpoint or a permanent one. Defaults to False.
+
+    Returns:
+        (Breakpoint, None): The newly created breakpoint object None if couldn't create one
     """
     return __set_general_break(address, gdb.BP_BREAKPOINT, is_temporary)
 
 def set_hardware_breakpoint(address, is_temporary=False):
-    """
-    Set a hardware breakpoint in the code given the address.
-    :param address: The int address or a valid string for command break
-    :param bool is_temporary: Whether to create a temporary breakpoint or a permanent one. Default is False
+    """Set a hardware breakpoint in the code given the address.
+
+    Args:
+        address (int, str): The int address or a valid string for command break
+        is_temporary (bool, optional): Whether to create a temporary breakpoint or a permanent one. Defaults to False.
+
+    Returns:
+        (Breakpoint, None): The newly created hardware breakpoint object. None if couldn't create one
     """
     # gdb.BP_HARDWARE_BREAKPOINT seems to not really exist on gdb module (their type is gdb.BP_BREAKPOINT)
     # We'll use a "rustic" way to obtain a  hardware breakpoint
@@ -193,10 +206,15 @@ def set_hardware_breakpoint(address, is_temporary=False):
 
 
 def set_watchpoint(address, is_temporary=False, type=gdb.WP_WRITE):
-    """
-    Set a watchpoint in the code given the address.
-    :param address: The int address or a valid string for command break
-    :param bool is_temporary: Whether to create a temporary breakpoint or a permanent one. Default is False
+    """Set a watchpoint in the code given the address.
+
+    Args:
+        address (int, str): The int address or a valid string for command watch
+        is_temporary (bool, optional): Whether to create a temporary breakpoint or a permanent one. Defaults to False.
+        type (gdb.WP_WRITE/gdb.WP_READ/gdb.WP_ACCESS, optional): The watchpoint type. Defaults to gdb.WP_WRITE.
+
+    Returns:
+        (Breakpoint, None): The newly created watchpoint object. None if couldn't create one
     """
     return __set_general_break(address, gdb.BP_WATCHPOINT, is_temporary, wp_type=type)
 

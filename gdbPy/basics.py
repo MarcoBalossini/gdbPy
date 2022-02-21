@@ -1,17 +1,20 @@
 import gdb
 
 def attach(process):
-    """
-    Attach gdb to a running process
-    :param int pid: The process pid
+    """Attach gdb to a running process
+
+    Args:
+        process (int, process): The process pid or pwntools structure
     """
     try:
         if isinstance(process, int):
             gdb.execute(f"attach {process}")
-        else:
-            from pwnlib.util.proc import pidof
-            pid = pidof(process)[0]
-            gdb.execute(f"attach {pid}")
+        # pwntools still can't stand to be run inside gdb...
+        # hopefully in the future it will change
+        # else:
+        #     from pwnlib.util.proc import pidof
+        #     pid = pidof(process)[0]
+        #     gdb.execute(f"attach {pid}")
     except Exception as e:
         print(f"[!] ERROR: {e}")
         if 'ptrace' in str(e):
@@ -31,10 +34,10 @@ def attach(process):
             print("\t    2) Set ptrace_scope to 0: \"sudo echo 0 > /proc/sys/kernel/yama/ptrace_scope\"")
 
 def set_file(filename):
-    """
-    Sets a file in gdb, given its name
+    """Sets a file in gdb, given its name
 
-    :param str filename: the name of the file to debug
+    Args:
+        filename (str): The name of the file to debug
     """
     try:
         gdb.execute(f"file ./{filename}")
@@ -42,10 +45,10 @@ def set_file(filename):
         print(f"[!] ERROR: File not set. {e}")
 
 def set_args(args):
-    """
-    Sets the argument to the execution
+    """Sets the argument to the execution
 
-    :param list(str) args: optional arguments to use at the execution
+    Args:
+        args (list(str)): Arguments to use at the execution
     """
     try:
         cmd = "set args"
@@ -56,10 +59,13 @@ def set_args(args):
         print("[!] ERROR: args not set")
 
 def execute(cmd):
-    """
-    Executes a generic command
+    """Executes a generic command
 
-    :param str cmd: The command
+    Args:
+        cmd (str): The command
+
+    Returns:
+        str: The command result
     """
     try:
         return gdb.execute(cmd, to_string=True)
@@ -67,7 +73,6 @@ def execute(cmd):
         print(f"[!] ERROR: {e}")
 
 def quit():
-    """
-    Quits and closes gdb
+    """Quits and closes gdb
     """
     gdb.execute("quit")

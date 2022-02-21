@@ -21,6 +21,7 @@ Fortunately gdb embeds python interpreter, so we can rerun the scripts importing
 ```
 gdb -q -x script.py
 ```
+Don't worry, gdbPy will do it for you!
 
 ## Examples
 ```python
