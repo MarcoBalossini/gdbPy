@@ -17,3 +17,4 @@ else:
     from gdbPy.info import *
     from gdbPy.execution import *
     from gdbPy.breakpoint import *
+    from gdbPy.signals import *

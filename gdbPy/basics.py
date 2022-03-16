@@ -72,6 +72,17 @@ def execute(cmd):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
+def choose_thread(thread_num):
+    """Monitor a given thread
+
+    Args:
+        thread_num (int): The thread number
+    """
+    try:
+        gdb.execute(f"thread {thread_num}")
+    except Exception as e:
+        print(f"[!] ERROR: {e}")
+
 def quit():
     """Quits and closes gdb
     """
