@@ -8,9 +8,9 @@ gdbPy relies on GNU Python APIs for gdb to do the work, but without the need of 
 Be aware that gdbPy is still in the early phase of its development. In case some problem arises write an issue and be patient :-)
 
 ## Installation
-Download the .whl file in dist folder and run the command
-```bash
-python3 -m pip install path/to/package.whl
+The project is on Pypi. Install with:
+```
+python3 -m pip install gdbPy
 ```
 
 ## GDB module for Python
