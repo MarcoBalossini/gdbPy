@@ -6,4 +6,11 @@ setup(
     description='gdb scripts in Python',
     author='Marco Balossini',
     license='GPL',
+    url="https://github.com/MarcoBalossini/gdbPy",
+    keywords=["gdb", "debugging"],
+    classifiers=[
+    'Intended Audience :: Developers',
+    'License :: GPL License',
+    'Programming Language :: Python :: 3',
+  ],
 )
