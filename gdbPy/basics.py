@@ -1,6 +1,6 @@
 import gdb
 
-def attach(process):
+def attach(process: int) -> None:
     """Attach gdb to a running process
 
     Args:
@@ -33,7 +33,7 @@ def attach(process):
             print(f"\t    1) Run again the process as a superuser: \"sudo python3 {pname}\"")
             print("\t    2) Set ptrace_scope to 0: \"sudo echo 0 > /proc/sys/kernel/yama/ptrace_scope\"")
 
-def set_file(filename):
+def set_file(filename: str) -> None:
     """Sets a file in gdb, given its name
 
     Args:
@@ -44,7 +44,7 @@ def set_file(filename):
     except Exception as e:
         print(f"[!] ERROR: File not set. {e}")
 
-def set_args(args):
+def set_args(args: list[str]) -> None:
     """Sets the argument to the execution
 
     Args:
@@ -58,7 +58,7 @@ def set_args(args):
     except:
         print("[!] ERROR: args not set")
 
-def execute(cmd):
+def execute(cmd: str) -> str|None:
     """Executes a generic command
 
     Args:
@@ -72,7 +72,7 @@ def execute(cmd):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def choose_thread(thread_num):
+def choose_thread(thread_num: int) -> None:
     """Monitor a given thread
 
     Args:
@@ -83,7 +83,7 @@ def choose_thread(thread_num):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def quit():
+def quit() -> None:
     """Quits and closes gdb
     """
     gdb.execute("quit")

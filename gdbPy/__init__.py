@@ -1,7 +1,7 @@
 import os
 import psutil
 
-def launch_gdb(filename):
+def launch_gdb(filename: str):
     os.execl("/usr/bin/gdb", "/usr/bin/gdb", "-q", "-x", filename)
 
 process = psutil.Process(os.getpid())
@@ -12,6 +12,8 @@ if "gdb" not in process_name:
         if ".py" in arg:
             launch_gdb(arg)
 else:
+    # set PWNLIB_NOTERM = 1 to avoid problems with pwntools
+    os.environ["PWNLIB_NOTERM"] = "1"
     # import all files' methods
     from gdbPy.basics import *
     from gdbPy.info import *

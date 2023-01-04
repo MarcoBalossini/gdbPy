@@ -4,28 +4,28 @@ import re
 class Instruction():
     """Class containing instructions data
     """
-    def __init__(self, address, offset, instruction, notes) -> None:
+    def __init__(self, address: int, offset: int, instruction: str, notes: str) -> None:
         self.address = address
         self.offset = offset
         self.instruction = instruction
         self.notes = notes
 
-def get_architecture():
+def get_architecture() -> str|None:
     """Return the file architecture's name
 
     Returns:
-        str: The architecture name
+        str|None: The architecture name
     """
     try:
         return gdb.newest_frame().architecture().name()
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def current_function():
+def current_function() -> str|None:
     """Return the currently executing function
 
     Returns:
-        str: The current function name
+        str|None: The current function name
     """
     try:
         return gdb.newest_frame().name()
@@ -34,7 +34,7 @@ def current_function():
 
 # Could be done with gdb.Architecture.disassemble()
 # however it does not return the instructions offset
-def disass(where=""):
+def disass(where: str ="") -> list[Instruction]:
     """Disassemble the current function or the given location.
 
     Args:
@@ -58,7 +58,7 @@ def disass(where=""):
         instructions.append(Instruction(address, offset, instruction, notes))
     return instructions
 
-def read_register(name):
+def read_register(name: str) -> str|None:
     """
     Get register value
     :param str name: The register name. e.g., 'rax' or 'rsp'
@@ -68,7 +68,7 @@ def read_register(name):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def read_variable(name):
+def read_variable(name: str) -> str|None:
     """Get variable value
 
     Args:
@@ -82,7 +82,7 @@ def read_variable(name):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def backtrace(full=False):
+def backtrace(full: bool =False) -> list[dict]|None:
     """
     Show call stack
 
@@ -90,7 +90,7 @@ def backtrace(full=False):
         full (bool): Whether or not to include local variables
     
     Returns:
-        str: The backtrace
+        list[dict]|None: The backtrace
     """
     try:
         bt = gdb.execute(f"backtrace {'full' if full else ''}", to_string=True)
@@ -120,7 +120,7 @@ def backtrace(full=False):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def print_memory(address, n_units, format="x", unit="g"):
+def print_memory(address: int, n_units: int, format: str ="x", unit: str ="g") -> str|None:
     """Prints raw memory from given address for n units of given type with given format
 
     Args:

@@ -1,10 +1,6 @@
-
 venv/
-
 .gdb_history
-
 build/
-
 gdbPy.egg-info/
-
 .idea/
+dist/

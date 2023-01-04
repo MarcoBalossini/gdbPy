@@ -29,70 +29,70 @@ class Breakpoint():
     """
 
 
-    def __init__(self, breakpoint):
+    def __init__(self, breakpoint: gdb.Breakpoint):
         self.__breakpoint = breakpoint
   
-    def get_number(self):
+    def get_number(self) -> int:
         """Returns breakpoint number"""
         return self.__breakpoint.number
 
-    def get_type(self):
+    def get_type(self) -> str:
         """Returns breakpoint type as a string"""
         return Break_type(self.__breakpoint.type)
 
-    def is_temporary(self):
+    def is_temporary(self) -> bool:
         """Returns whether the checkpoint is temporary or not"""
         return self.__breakpoint.temporary
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """Returns whether the breakpoint is still valid or not"""
         return self.__breakpoint.is_valid()
 
-    def delete(self):
+    def delete(self) -> None:
         """Delete the breakpoint"""
         self.__breakpoint.delete()
 
-    def is_enabled(self):
+    def is_enabled(self) -> bool:
         """Returns whether the breakpoint is enabled or not"""
         return self.__breakpoint.enabled
 
-    def is_silent(self):
+    def is_silent(self) -> bool:
         """Returns whether the breakpoint is silent or not"""
         return self.__breakpoint.silent
 
-    def is_pending(self):
+    def is_pending(self) -> bool:
         """Returns whether the breakpoint is pending or not"""
         return self.__breakpoint.pending
 
-    def get_thread(self):
+    def get_thread(self) -> int|None:
         """If breakpoint is thread specific returns the thread's global id, otherwise returns `None`"""
         return self.__breakpoint.thread
 
-    def get_ignore_count(self):
+    def get_ignore_count(self) -> int:
         """Returns the ignore count"""
         return self.__breakpoint.ignore_count
 
-    def is_visible(self):
+    def is_visible(self) -> bool:
         """Returns whether the breakpoint is visible or not"""
         return self.__breakpoint.visible
     
-    def get_count(self):
+    def get_count(self) -> int:
         """Returns breakpoint's hit count"""
         return self.__breakpoint.hit_count
 
-    def get_location(self):
+    def get_location(self) -> str|None:
         """Returns breakpoint's location as a string. None if the breakpoint does not have one"""
         return self.__breakpoint.location
 
-    def get_expression(self):
+    def get_expression(self) -> str|None:
         """Returns breakpoint's expression as a string. None if the breakpoint does not have one"""
         return self.__breakpoint.expression
 
-    def get_condition(self):
+    def get_condition(self) -> str|None:
         """Returns breakpoint's condition as a string. None if the breakpoint does not have one"""
         return self.__breakpoint.condition
 
-    def get_commands(self):
+    def get_commands(self) -> str|None:
         """
         Returns breakpoint's commands as a string (commands are separated by a new line character).
         None if the breakpoint does not have one.
@@ -101,23 +101,23 @@ class Breakpoint():
 
 
     # setters
-    def enable(self):
+    def enable(self) -> None:
         """Enable the breakpoint"""
         self.__breakpoint.enabled = True
 
-    def disable(self):
+    def disable(self) -> None:
         """Disable the breakpoint"""
         self.__breakpoint.enabled = False
 
-    def silence(self):
+    def silence(self) -> None:
         """Silence the breakpoint"""
         self.__breakpoint.silent = True
 
-    def unsilence(self):
+    def unsilence(self) -> None:
         """Unsilence the breakpoint"""
         self.__breakpoint.silent = False
 
-    def set_thread(self, thread_id):
+    def set_thread(self, thread_id: int) -> None:
         """
         Set the thread id to the breakpoint
         
@@ -126,7 +126,7 @@ class Breakpoint():
         """
         self.__breakpoint.thread = thread_id
 
-    def set_ignore_count(self, ignore):
+    def set_ignore_count(self, ignore: int) -> None:
         """
         Sets the ignore count
         Args:
@@ -134,11 +134,11 @@ class Breakpoint():
         """
         self.__breakpoint.ignore_count = ignore
 
-    def reset_hit_count(self):
+    def reset_hit_count(self) -> None:
         """Resets hit count"""
         self.__breakpoint.hit_count = 0
 
-    def set_condition(self, condition):
+    def set_condition(self, condition: str) -> None:
         """
         Sets the breakpoint's condition
         Args:
@@ -147,7 +147,7 @@ class Breakpoint():
         self.__breakpoint.condition = condition
 
     # TODO: Still some problem
-    def set_commands(self, commands):
+    def set_commands(self, commands: str) -> None:
         """
         Sets the breakpoint's command
         Args:
@@ -156,14 +156,14 @@ class Breakpoint():
         self.__breakpoint.commands = commands
 
 
-def get_breakpoints():
+def get_breakpoints() -> list[Breakpoint]:
     """
     Get breakpoints info.
     """
     breakpoints = gdb.breakpoints()
     return [Breakpoint(b) for b in breakpoints]
 
-def set_breakpoint(address, is_temporary=False):
+def set_breakpoint(address: int|str, is_temporary=False) -> Breakpoint|None:
     """Set a breakpoint in the code given the address.
 
     Args:
@@ -175,7 +175,7 @@ def set_breakpoint(address, is_temporary=False):
     """
     return __set_general_break(address, gdb.BP_BREAKPOINT, is_temporary)
 
-def set_hardware_breakpoint(address, is_temporary=False):
+def set_hardware_breakpoint(address: int, is_temporary=False) -> Breakpoint|None:
     """Set a hardware breakpoint in the code given the address.
 
     Args:
@@ -205,7 +205,7 @@ def set_hardware_breakpoint(address, is_temporary=False):
         return None
 
 
-def set_watchpoint(address, is_temporary=False, type=gdb.WP_WRITE):
+def set_watchpoint(address: int|str, is_temporary=False, type=gdb.WP_WRITE) -> Breakpoint|None:
     """Set a watchpoint in the code given the address.
 
     Args:
@@ -218,7 +218,7 @@ def set_watchpoint(address, is_temporary=False, type=gdb.WP_WRITE):
     """
     return __set_general_break(address, gdb.BP_WATCHPOINT, is_temporary, wp_type=type)
 
-def __set_general_break(address, b_type, is_temporary, wp_type=gdb.WP_WRITE):
+def __set_general_break(address: int|str, b_type: int, is_temporary: bool, wp_type=gdb.WP_WRITE) -> Breakpoint|None:
     if isinstance(address, int):
         cmd = f"*{hex(address)}"
     elif isinstance(address, str):

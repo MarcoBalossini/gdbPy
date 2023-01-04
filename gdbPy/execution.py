@@ -1,13 +1,13 @@
 import gdb
 
-def start(stdin=None, stdout=None, stderr=None, params=[]):
+def start(stdin: str|None =None, stdout: str|None =None, stderr: str|None =None, params: list[str] =[]) -> None:
     """Start the execution of a process and stop at the start
 
     Args:
         stdin (str, optional): stdin redirection. Defaults to None.
         stdout (str, optional): stdout redirection. Defaults to None.
         stderr (str, optional): stderr redirection. Defaults to None.
-        params (list, optional): An optional list of parameters. Defaults to [].
+        params (list[str], optional): An optional list of parameters. Defaults to [].
     """
     cmd = __concatenate_params("start", stdin, stdout, stderr, params)
 
@@ -16,14 +16,14 @@ def start(stdin=None, stdout=None, stderr=None, params=[]):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def run(stdin=None, stdout=None, stderr=None, params=[]):
+def run(stdin: str|None =None, stdout: str|None =None, stderr: str|None =None, params: list[str] =[]) -> None:
     """Start the execution of a process
 
     Args:
         stdin (str, optional): stdin redirection. Defaults to None.
         stdout (str, optional): stdout redirection. Defaults to None.
         stderr (str, optional): stderr redirection. Defaults to None.
-        params (list, optional): An optional list of parameters. Defaults to [].
+        params (list[str], optional): An optional list of parameters. Defaults to [].
     """
     cmd = __concatenate_params("run", stdin, stdout, stderr, params)
 
@@ -32,7 +32,7 @@ def run(stdin=None, stdout=None, stderr=None, params=[]):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def continue_exec():
+def continue_exec() -> None:
     """Continues execution
     """
     try:
@@ -40,7 +40,7 @@ def continue_exec():
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def next_instruction(c_level=False, repeat=1):
+def next_instruction(c_level: bool =False, repeat : int =1) -> None:
     """Go to next instruction (source line) but doesn't dive into functions
 
     Args:
@@ -57,7 +57,7 @@ def next_instruction(c_level=False, repeat=1):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def step_in(c_level=False):
+def step_in(c_level: bool =False) -> None:
     """Step to the next instruction diving into functions
 
     Args:
@@ -73,7 +73,7 @@ def step_in(c_level=False):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def finish_function():
+def finish_function() -> None:
     """Continue until the current function returns.
     """
     
@@ -82,7 +82,7 @@ def finish_function():
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def kill_execution():
+def kill_execution() -> None:
     """Kills current execution
     """
     try:
@@ -90,7 +90,7 @@ def kill_execution():
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def set_argument(name, value, variable=True):
+def set_argument(name: str, value: str, variable: bool|None =True) -> None:
     """Set a runtime value
 
     Args:
@@ -103,7 +103,7 @@ def set_argument(name, value, variable=True):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def return_to_caller(expression=""):
+def return_to_caller(expression: str ="") -> None:
     """Return the expression to the caller
 
     Args:
@@ -114,7 +114,7 @@ def return_to_caller(expression=""):
     except Exception as e:
         print(f"[!] ERROR: {e}")
 
-def __concatenate_params(cmd, stdin, stdout, stderr, params):
+def __concatenate_params(cmd: str|None, stdin: str|None, stdout: str|None, stderr: str|None, params: list[str]) -> str:
     """Concatenate params to a given command
 
     Args:

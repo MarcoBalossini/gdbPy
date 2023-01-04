@@ -1,6 +1,6 @@
 import gdb
 
-def handle_signal(signal, print=None, stop=None, to_pass=None):
+def handle_signal(signal: str, print: bool|None =None, stop: bool|None =None, to_pass: bool|None =None) -> None:
     """Set handle options for a given signal
 
     Args:
