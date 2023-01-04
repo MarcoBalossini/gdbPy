@@ -5,7 +5,6 @@
 Not so many people are skilled in the dark arts of gdb scripting... and I'm not one of those!
 gdbPy is an attempt to help all this people to write a higher level gdb scripts.<br>
 gdbPy relies on GNU Python APIs for gdb to do the work, but without the need of installing gdb module on python ([more on this matter](#gdb-module-for-python))<br>
-Be aware that gdbPy is still in the early phase of its development. In case some problem arises write an issue and be patient :-)
 
 ## Installation
 The project is on Pypi. Install with:
