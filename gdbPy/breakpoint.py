@@ -187,12 +187,10 @@ def set_hardware_breakpoint(address: int, is_temporary=False) -> Breakpoint|None
     """
     # gdb.BP_HARDWARE_BREAKPOINT seems to not really exist on gdb module (their type is gdb.BP_BREAKPOINT)
     # We'll use a "rustic" way to obtain a  hardware breakpoint
-    if isinstance(address, int):
-        cmd = f"hbreak *{hex(address)}"
-    elif isinstance(address, str):
-        cmd = f"hbreak {address}"
-    else:
-        print("[!] ERROR: Wrong input type. The argument must be an int or a string")
+    try:
+        cmd = __check_address(address)
+    except TypeError as e:
+        print(f"[!] ERROR: {e}")
         return None
 
     if is_temporary:
@@ -219,12 +217,10 @@ def set_watchpoint(address: int|str, is_temporary=False, type=gdb.WP_WRITE) -> B
     return __set_general_break(address, gdb.BP_WATCHPOINT, is_temporary, wp_type=type)
 
 def __set_general_break(address: int|str, b_type: int, is_temporary: bool, wp_type=gdb.WP_WRITE) -> Breakpoint|None:
-    if isinstance(address, int):
-        cmd = f"*{hex(address)}"
-    elif isinstance(address, str):
-        cmd = address
-    else:
-        print("[!] ERROR: Wrong input type. The argument must be an int or a string")
+    try:
+        cmd = __check_address(address)
+    except TypeError as e:
+        print(f"[!] ERROR: {e}")
         return None
 
     try:
@@ -235,3 +231,30 @@ def __set_general_break(address: int|str, b_type: int, is_temporary: bool, wp_ty
     except Exception as e:
         print(f"[!] ERROR: {e}")
         return None
+
+def __check_address(address: int|str) -> str:
+    """
+    Get the address to insert in the breakpoint command
+    Args:
+        address (int, str): The address to be checked
+
+    Returns:
+        (str): The address as a string
+    """
+    if isinstance(address, int):
+        return f"*{hex(address)}"
+    if isinstance(address, str):
+        try:
+            a = int(address, 16)
+            return f"*{hex(address)}"
+        except:
+            pass
+        try:
+            _ = int(address, 10)
+            return f"*{address}"
+        except:
+            pass
+        
+        return address
+    else:
+        raise TypeError("Wrong input type. The argument must be an int or a string")

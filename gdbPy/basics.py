@@ -4,13 +4,13 @@ def attach(process: int) -> None:
     """Attach gdb to a running process
 
     Args:
-        process (int, process): The process pid or pwntools structure
+        process (int): The process pid
     """
     try:
         if isinstance(process, int):
             gdb.execute(f"attach {process}")
-        # pwntools still can't stand to be run inside gdb...
-        # hopefully in the future it will change
+        # TODO: pwntools process object
+        # 
         # else:
         #     from pwnlib.util.proc import pidof
         #     pid = pidof(process)[0]

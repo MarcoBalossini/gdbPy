@@ -1,5 +1,6 @@
 [![License: GPL v3](https://img.shields.io/github/license/MarcoBalossini/gdbPy)](https://www.gnu.org/licenses/gpl-3.0)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![Downloads](https://static.pepy.tech/badge/gdbpy)](https://pepy.tech/project/gdbpy)
 
 # gdbPy
 Not so many people are skilled in the dark arts of gdb scripting... and I'm not one of those!
